@@ -1,0 +1,64 @@
+name: Release Plugin
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get Version
+        id: get_version
+        run: echo "::set-output name=VERSION::$(echo $GITHUB_REF#refs/tags/)"
+
+      - name: Zip Plugin
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          filename: wp-github-build-trigger-v${{ steps.get_version.outputs.VERSION }}.zip
+          directory: ./
+
+      - name: Read Changelog
+        id: read_changelog
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs').promises;
+            const changelog = await fs.readFile('./CHANGELOG.md', 'utf8');
+            const version = '${{ steps.get_version.outputs.VERSION }}';
+            const versionHeader = `## v${version}`;
+            const versionStartIndex = changelog.indexOf(versionHeader);
+
+            if (versionStartIndex === -1) {
+              core.setOutput('changes', 'No changelog found for this version');
+              return
+            }
+
+            let versionEndIndex = changelog.indexOf('## v', versionStartIndex + versionHeader.length);
+            if (versionEndIndex === -1) {
+              versionEndIndex = changelog.length;
+            }
+
+            const changes = changelog.slice(versionStartIndex + versionHeader.length, versionEndIndex).trim();
+            core.setOutput('changes', changes);
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ steps.get_version.outputs.VERSION }}
+          body: |
+            Release of WP GitHub Build Trigger v${{ steps.get_version.outputs.VERSION }}
+
+            ## Changes
+
+            ${{ steps.read_changelog.outputs.changes }}
+          draft: true
+          prerelease: true
