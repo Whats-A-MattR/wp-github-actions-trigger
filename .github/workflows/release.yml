@@ -20,12 +20,19 @@ jobs:
           VERSION="${GITHUB_REF#refs/tags/}"
           echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Zip Plugin
-        uses: thedoctor0/zip-release@0.7.5
-        with:
-          path: ./src
-          filename: wp-github-build-trigger-v${{ steps.get_version.outputs.VERSION }}.zip
-          directory: ./
+      - name: Zip Pack
+        run: |
+          VERSION="${{ steps.get_version.outputs.VERSION }}"
+          ZIP_FILENAME="wp-github-build-trigger-v${VERSION}.zip"
+          cd src/ || exit 1
+          zip -r "../${ZIP_FILENAME}" ./*
+
+          if [ $? -eq 0 ]; then
+            echo "::set-output name=zip_filename::${ZIP_FILENAME}"
+          else
+            echo "Failed to create zip file"
+            exit 1
+          fi
 
       - name: Read Changelog
         id: read_changelog
