@@ -1,4 +1,8 @@
 # wp-github-actions-trigger
+
+## What is it?
+A simple WordPress plugin to dispatch GitHub Actions on events in WordPress. Useful for static sites using WordPress as a Headless CMS.
+
  
 ## Installation
 Steps may vary between hosting providers
