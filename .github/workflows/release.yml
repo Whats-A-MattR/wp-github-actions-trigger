@@ -23,9 +23,8 @@ jobs:
       - name: Zip Plugin
         uses: thedoctor0/zip-release@0.7.5
         with:
-          path: ./src/
           filename: wp-github-build-trigger-v${{ steps.get_version.outputs.VERSION }}.zip
-          directory: ./
+          directory: ./src/
 
       - name: Read Changelog
         id: read_changelog
