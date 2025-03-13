@@ -129,6 +129,7 @@ function wp_github_build_trigger_settings_page()
           <th scope="row">Triggers</th>
           <td>
             <label><input type="checkbox" name="github_build_triggers[]" value="publish_post" <?php checked(in_array('publish_post', $github_build_triggers)); ?>>&nbsp;Publish Post</label><br>
+            <label><input type="checkbox" name="github_build_triggers[]" value="edit_published_post" <?php checked(in_array('edit_published_post', $github_build_triggers)); ?>>&nbsp;Edit Published Post</label><br>
             <label><input type="checkbox" name="github_build_triggers[]" value="unpublish_post" <?php checked(in_array('unpublish_post', $github_build_triggers)); ?>>&nbsp;Unpublish Post</label><br>
           </td>
         </tr>

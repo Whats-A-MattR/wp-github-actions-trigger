@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP GitHub Actions Trigger
 Description: Triggers a GitHub Action on defined content changes. Perfect for use cases for when WordPress is used as a headless CMS with a statically generated frontend.
-Version: 0.0.3-beta
+Version: 0.0.4-beta
 Author: Matt Russell
 */
 
@@ -218,3 +218,18 @@ function record_invocation($trigger_type, $status, $details = [])
   }
   update_option('github_build_history', $history);
 }
+
+function handle_published_post_update($post_id, $post_after, $post_before)
+{
+  // Check if the post is published AFTER the update
+  if ($post_after->post_status === 'publish') {
+    // Check if the post has actually been updated
+    if ($post_after->post_modified !== $post_before->post_modified) {
+      // Post is published and updated, perform your actions here
+      error_log('Published post updated: ' . $post_id);
+      // Trigger the GitHub Action
+      trigger_github_action();
+    }
+  }
+}
+add_action('post_updated', 'handle_published_post_update', 10, 3);
