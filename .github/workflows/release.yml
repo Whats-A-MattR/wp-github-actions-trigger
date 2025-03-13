@@ -23,7 +23,7 @@ jobs:
       - name: Zip Plugin
         uses: thedoctor0/zip-release@0.7.5
         with:
-          path: ./src/*
+          path: ./src/
           filename: wp-github-build-trigger-v${{ steps.get_version.outputs.VERSION }}.zip
           directory: ./
 
