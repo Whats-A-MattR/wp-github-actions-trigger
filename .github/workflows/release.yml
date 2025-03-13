@@ -23,8 +23,9 @@ jobs:
       - name: Zip Plugin
         uses: thedoctor0/zip-release@0.7.5
         with:
+          path: ./src
           filename: wp-github-build-trigger-v${{ steps.get_version.outputs.VERSION }}.zip
-          directory: ./src/
+          directory: ./
 
       - name: Read Changelog
         id: read_changelog
@@ -56,7 +57,7 @@ jobs:
           artifacts: wp-github-build-trigger-v${{ steps.get_version.outputs.VERSION }}.zip
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
-            Release of WP GitHub Build Trigger v${{ steps.get_version.outputs.VERSION }}
+            Release of WP GitHub Build Trigger ${{ steps.get_version.outputs.VERSION }}
 
             ## Changes
 
