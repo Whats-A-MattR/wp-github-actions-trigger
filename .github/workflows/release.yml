@@ -14,7 +14,9 @@ jobs:
 
       - name: Get Version
         id: get_version
-        run: echo "::set-output name=VERSION::$(echo $GITHUB_REF#refs/tags/)"
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/}"
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Zip Plugin
         uses: thedoctor0/zip-release@0.7.5
