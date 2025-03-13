@@ -23,7 +23,7 @@ jobs:
       - name: Zip Pack
         run: |
           VERSION="${{ steps.get_version.outputs.VERSION }}"
-          ZIP_FILENAME="wp-github-build-trigger-v${VERSION}.zip"
+          ZIP_FILENAME="wp-github-build-trigger-${VERSION}.zip"
           cd src/ || exit 1
           zip -r "../${ZIP_FILENAME}" ./*
 
@@ -42,7 +42,7 @@ jobs:
             const fs = require('fs').promises;
             const changelog = await fs.readFile('./CHANGELOG.md', 'utf8');
             const version = '${{ steps.get_version.outputs.VERSION }}';
-            const versionHeader = `## v${version}`;
+            const versionHeader = `## ${version}`;
             const versionStartIndex = changelog.indexOf(versionHeader);
 
             if (versionStartIndex === -1) {
