@@ -49,14 +49,11 @@ jobs:
             const changes = changelog.slice(versionStartIndex + versionHeader.length, versionEndIndex).trim();
             core.setOutput('changes', changes);
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Asset and Create Release
+        uses: ncipollo/release-action@v1.12.0
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ steps.get_version.outputs.VERSION }}
+          artifacts: wp-github-build-trigger-v${{ steps.get_version.outputs.VERSION }}.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
           body: |
             Release of WP GitHub Build Trigger v${{ steps.get_version.outputs.VERSION }}
 
@@ -64,4 +61,3 @@ jobs:
 
             ${{ steps.read_changelog.outputs.changes }}
           draft: true
-          prerelease: true
