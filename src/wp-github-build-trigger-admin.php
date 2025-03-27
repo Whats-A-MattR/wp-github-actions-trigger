@@ -170,7 +170,7 @@ function wp_github_build_trigger_settings_page()
                 <input type="submit" name="cancel_queue" class="button-secondary" value="Clear Queue" <?php echo empty($queue) ? 'disabled' : '' ?> />
                 <div>
                   &nbsp;
-                  <?php echo count($queue) ?> triggers delayed due to rate limiting.
+                  <?php echo count($queue) ?> updates pending due to rate limiting.
                 </div>
               </div>
             </form>
