@@ -83,13 +83,15 @@ function wp_github_build_trigger_settings_page()
 ?>
   <div class="wrap">
     <h2>GitHub Actions Trigger Settings</h2>
-    <p>To use this plugin, you need to create a GitHub Personal Access Token (PAT) with the <code>repo:repo_deployment</code> scope.</p>
-    <p>Instructions to create a PAT:</p>
+    <p>To use this plugin, you need a GitHub Personal Access Token (PAT) with permission to trigger workflows.</p>
+    <p><strong>Classic PAT:</strong> Use scopes <code>repo</code> (or <code>public_repo</code> for public repos) and <code>workflow</code>. Without <code>workflow</code>, triggering workflows returns 403.</p>
+    <p><strong>Fine-grained PAT:</strong> Grant the repository <strong>Actions: Read and write</strong> permission (and ensure the token can access the repo).</p>
+    <p>Instructions (classic token):</p>
     <ol>
-      <li>Go to your GitHub <a href="https://github.com/settings/tokens/new?scopes=repo:repo_deployment" target="_blank">Personal Access Tokens</a> page.</li>
-      <li>Click "Generate new token".</li>
+      <li>Go to your GitHub <a href="https://github.com/settings/tokens/new?scopes=repo,workflow" target="_blank">Personal Access Tokens</a> page.</li>
+      <li>Click "Generate new token (classic)".</li>
       <li>Give your token a descriptive name.</li>
-      <li>Select the <code>repo:repo_deployment</code> scope.</li>
+      <li>Select the <code>repo</code> (or <code>public_repo</code>) and <code>workflow</code> scopes.</li>
       <li>Click "Generate token".</li>
       <li>Copy the generated token and paste it into the field below.</li>
     </ol>

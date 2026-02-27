@@ -19,7 +19,7 @@ This plugin allows for GitHub Actions to be triggered by events in WordPress.
 Currently, only Publish and Unpublish are supported.
 
 ### Use Personal Access Tokens
-Connect to GitHub with a Personal Access Token. Works with Fine Grained Personal Access Tokens so you can scope to your desired repository, and limit permissions as needed.
+Connect to GitHub with a Personal Access Token. **Classic PATs** need the `repo` (or `public_repo`) and **`workflow`** scopes—without `workflow`, triggering workflows returns 403. **Fine-grained PATs** need **Actions: Read and write** on the repository. Works with fine-grained tokens so you can scope to your desired repository.
 
 ### Select Repo and Action
 Once you have connected to GitHub, you will be able to select the repository and action you would like to run. Currently only one action is supported.

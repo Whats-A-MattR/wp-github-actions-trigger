@@ -30,7 +30,12 @@ function trigger_github_action()
       ]
     ]);
 
-    $result = file_get_contents($url, false, $context);
+    $result = @file_get_contents($url, false, $context);
+    $status_line = $http_response_header[0] ?? '';
+    if (strpos($status_line, '204') === false) {
+      error_log('WP GitHub Build Trigger: Dispatch failed. Response: ' . $status_line . ' Body: ' . (is_string($result) ? $result : ''));
+      return $result;
+    }
     set_github_last_run();
     return $result;
   }
